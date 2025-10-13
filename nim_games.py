@@ -5,23 +5,24 @@ import random
 Jeu de Nim (variante simple et de Marienbad)
 """
 number_matches = 21
+number_of_choose_matches = None
 
 #Choix du mode de jeu (Ordinateur ou Joueur)
 while True:
-    typeofgame = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
+    type_of_game = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
 
     #Si le choix est Joueur
-    if typeofgame == "JOUEUR":
-        nameplayer1 = input("Entrez le nom du joueur 1 : ")
-        nameplayer2 = input("Entrez le nom du joueur 2 : ")
-        players = [nameplayer1, nameplayer2]
+    if type_of_game == "JOUEUR":
+        name_player_1 = input("Entrez le nom du joueur 1 : ")
+        name_player_2 = input("Entrez le nom du joueur 2 : ")
+        players = [name_player_1, name_player_2]
         break
 
     #Si le choix est Ordinateur
-    elif typeofgame == "ORDINATEUR":
-        nameplayer1 = input("Entrez le nom du joueur : ")
-        nameplayer2 = "Ordinateur"
-        players = [nameplayer1, nameplayer2]
+    elif type_of_game == "ORDINATEUR":
+        name_player_1 = input("Entrez le nom du joueur : ")
+        name_player_2 = "Ordinateur"
+        players = [name_player_1, name_player_2]
         break
 
     else:
@@ -45,8 +46,11 @@ while number_matches > 0:
                 else:
                     print("Veuillez entrer un nombre entre 1 et 4 sans dépasser le nombre d'allumettes restantes")
     else:
-        number_of_choose_matches = min(random.randint(1, 4), number_matches)
-        print(f"Ordinateur prend {number_of_choose_matches} allumette(s)")
+        if number_of_choose_matches is None:
+            number_of_choose_matches = random.randint(1, 4)
+        else:
+            number_of_choose_matches = 5 - number_of_choose_matches
+            print(f"Ordinateur prend {number_of_choose_matches} allumette(s)")
 
 
     number_matches -= number_of_choose_matches

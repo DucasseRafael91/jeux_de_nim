@@ -1,64 +1,89 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import random
+
 """
-Jeu de Nim (variante simple et de Marienbad)
+Jeu de Nim (variante simple) - 21 allumettes
 """
-number_matches = 21
-number_of_choose_matches = None
 
-#Choix du mode de jeu (Ordinateur ou Joueur)
-while True:
-    type_of_game = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
-
-    #Si le choix est Joueur
-    if type_of_game == "JOUEUR":
-        name_player_1 = input("Entrez le nom du joueur 1 : ")
-        name_player_2 = input("Entrez le nom du joueur 2 : ")
-        players = [name_player_1, name_player_2]
-        break
-
-    #Si le choix est Ordinateur
-    elif type_of_game == "ORDINATEUR":
-        name_player_1 = input("Entrez le nom du joueur : ")
-        name_player_2 = "Ordinateur"
-        players = [name_player_1, name_player_2]
-        break
-
-    else:
-        print("Veuillez taper ORDINATEUR ou JOUEUR.")
-
-#Choisis aléatoirement qui commence la partie
-current_player_index = random.randint(0, 1)
-print(f"\n{players[current_player_index]} commence la partie.\n")
-
-#Boucle tant qu'il reste des allumettes
-while number_matches > 0:
-    print(f"\nAllumettes restantes : {number_matches}")
-    current_player = players[current_player_index]
-
-    #Si joueur contre joueur
-    if current_player != "Ordinateur":
-        while True:
-                number_of_choose_matches = int(input(f"{current_player}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
-                if 1 <= number_of_choose_matches <= 4 and number_of_choose_matches <= number_matches:
-                    break
-                else:
-                    print("Veuillez entrer un nombre entre 1 et 4 sans dépasser le nombre d'allumettes restantes")
-    else:
-        if number_of_choose_matches is None:
-            number_of_choose_matches = random.randint(1, 4)
+def demander_mode_jeu():
+    while True:
+        mode = input("Tapez SIMPLE (mode classique) ou MARIENBAD (non disponible pour l'instant) : ").strip().upper()
+        if mode == "SIMPLE":
+            return mode
+        elif mode == "MARIENBAD":
+            print("Le mode MARIENBAD n'est pas encore disponible.")
         else:
-            number_of_choose_matches = 5 - number_of_choose_matches
-            print(f"Ordinateur prend {number_of_choose_matches} allumette(s)")
+            print("Veuillez taper SIMPLE.")
 
+def demander_type_de_partie():
+    while True:
+        choix = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
+        if choix == "JOUEUR":
+            nom1 = input("Entrez le nom du joueur 1 : ")
+            nom2 = input("Entrez le nom du joueur 2 : ")
+            return [nom1, nom2]
+        elif choix == "ORDINATEUR":
+            nom1 = input("Entrez le nom du joueur : ")
+            return [nom1, "Ordinateur"]
+        else:
+            print("Choix invalide. Tapez ORDINATEUR ou JOUEUR.")
 
-    number_matches -= number_of_choose_matches
+def tour_joueur(nom, allumettes_restantes):
+    while True:
+        try:
+            prise = int(input(f"{nom}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
+            if 1 <= prise <= 4 and prise <= allumettes_restantes:
+                return prise
+            else:
+                print("Veuillez entrer un nombre entre 1 et 4, sans dépasser les allumettes restantes.")
+        except ValueError:
+            print("Entrée invalide. Veuillez entrer un nombre.")
 
-    if number_matches == 0:
-        print(f"\n{current_player} perd la partie.")
-        winner = players[1 - current_player_index]
-        print(f"{winner} gagne !")
-        break
+def tour_ordinateur(dernier_choix_joueur, allumettes_restantes):
+    # Stratégie basique : réponse complémentaire à 5 si possible
+    if dernier_choix_joueur:
+        prise = 5 - dernier_choix_joueur
+    else:
+        prise = random.randint(1, min(4, allumettes_restantes))
 
-    current_player_index = 1 - current_player_index
+    prise = min(prise, allumettes_restantes)
+    print(f"L'ordinateur prend {prise} allumette(s).")
+    return prise
+
+def main():
+    ALLUMETTES_INITIALES = 21
+    allumettes = ALLUMETTES_INITIALES
+
+    mode = demander_mode_jeu()
+    joueurs = demander_type_de_partie()
+
+    # Tirage au sort du premier joueur
+    joueur_actuel = random.randint(0, 1)
+    print(f"\n{joueurs[joueur_actuel]} commence la partie.\n")
+
+    dernier_choix = None
+
+    while allumettes > 0:
+        print(f"\nAllumettes restantes : {allumettes}")
+        nom_joueur = joueurs[joueur_actuel]
+
+        if nom_joueur != "Ordinateur":
+            prise = tour_joueur(nom_joueur, allumettes)
+            dernier_choix = prise
+        else:
+            prise = tour_ordinateur(dernier_choix, allumettes)
+
+        allumettes -= prise
+
+        if allumettes == 0:
+            print(f"\n{nom_joueur} a pris la dernière allumette et perd la partie.")
+            gagnant = joueurs[1 - joueur_actuel]
+            print(f"{gagnant} gagne !\n")
+            break
+
+        joueur_actuel = 1 - joueur_actuel
+
+# Lancement du jeu
+if __name__ == "__main__":
+    main()

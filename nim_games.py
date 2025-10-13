@@ -1,30 +1,53 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import random
 """
 Jeu de Nim (variante simple et de Marienbad)
 """
-import random
+number_matches = 21
 
 while True:
-    typeofgame = input("Tapez ORDINATEUR ou JOUEUR : ")
+    typeofgame = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
 
     if typeofgame == "JOUEUR":
         nameplayer1 = input("Entrez le nom du joueur 1 : ")
         nameplayer2 = input("Entrez le nom du joueur 2 : ")
-
-        starter = random.randint(1, 2)
-
-        if starter == 1:
-            print(f"{nameplayer1} commence la partie.")
-        else:
-            print(f"{nameplayer2} commence la partie.")
+        players = [nameplayer1, nameplayer2]
         break
 
     elif typeofgame == "ORDINATEUR":
         nameplayer1 = input("Entrez le nom du joueur : ")
-        print(f"{nameplayer1} va jouer contre l'ordinateur.")
+        nameplayer2 = "Ordinateur"
+        players = [nameplayer1, nameplayer2]
         break
 
     else:
         print("Entrée invalide. Veuillez taper ORDINATEUR ou JOUEUR.")
+
+current_player_index = random.randint(0, 1)
+print(f"\n{players[current_player_index]} commence la partie.\n")
+
+while number_matches > 0:
+    print(f"\nAllumettes restantes : {number_matches}")
+    current_player = players[current_player_index]
+
+    if current_player != "Ordinateur":
+        while True:
+                number_of_choose_matches = int(input(f"{current_player}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
+                if 1 <= number_of_choose_matches <= 4 and number_of_choose_matches <= number_matches:
+                    break
+                else:
+                    print("Veuillez entrer un nombre entre 1 et 4 sans dépasser le nombre d'allumettes restantes.")
+    else:
+        number_of_choose_matches = min(random.randint(1, 4), number_matches)
+        print(f"Ordinateur prend {number_of_choose_matches} allumette(s).")
+
+    number_matches -= number_of_choose_matches
+
+    if number_matches == 0:
+        print(f"\n{current_player} a pris la dernière allumette et perd la partie.")
+        winner = players[1 - current_player_index]
+        print(f"{winner} gagne ! ")
+        break
+
+    current_player_index = 1 - current_player_index

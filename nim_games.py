@@ -5,6 +5,11 @@ import random
 """
 Jeu de Nim - Version SIMPLE (21 allumettes) et MARIENBAD (4 tas : 1,3,5,7)
 """
+
+"""
+   Demande le mode de jeu voulue (SIMPLE OU MARIENBAD)
+   :return: game_mode
+"""
 def ask_game_mode():
     while True:
         game_mode = input("Tapez SIMPLE (mode classique) ou MARIENBAD : ").strip().upper()
@@ -13,6 +18,11 @@ def ask_game_mode():
         else:
             print("Veuillez entrer SIMPLE ou MARIENBAD")
 
+
+"""
+    Demande le type de jeux voulue
+    :return: liste de noms des joueurs
+"""
 def ask_type_of_game():
     while True:
         choice = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
@@ -26,6 +36,12 @@ def ask_type_of_game():
         else:
             print("Choix invalide. Tapez ORDINATEUR ou JOUEUR.")
 
+"""
+    Demande au joueur de choisir le nombre d'allumettes qu'il veut enlever dans le mode de jeu simple
+    :param name : nom du joueur
+    :param matches_remaining : nombre d'allumettes restantes 
+    :return: nombre d'allumettes que le joueur souhaite enlever
+"""
 def player_turn_simple(name, matches_remaining):
     while True:
         try:
@@ -36,6 +52,12 @@ def player_turn_simple(name, matches_remaining):
             pass
         print("Entrée invalide. Essayez encore.")
 
+"""
+    Permet à l'ordinateur de choisir le nombre d'allumettes qu'il doit enlever dans le mode de jeu simple
+    :param last_choice_player : dernier nombre d'allumettes choisis par le joueur (Nullable)
+    :param matches_remaining : nombre d'allumettes restantes 
+    :return: liste de noms des joueurs
+"""
 def computer_turn_simple(last_choice_player, matches_remaining):
     if last_choice_player:
         number = 5 - last_choice_player
@@ -128,7 +150,6 @@ def game_marienbad(players):
             break
 
         actual_player = 1 - actual_player
-
 
 def main():
     mode = ask_game_mode()

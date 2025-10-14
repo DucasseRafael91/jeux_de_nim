@@ -72,6 +72,14 @@ def player_turn_marienbad(player_name, piles):
             pass
         print("Entrée invalide. Essayez encore.")
 
+def computer_turn_marienbad(piles):
+    non_empty_indices = [i for i, pile in enumerate(piles) if pile > 0]
+    pile_index = random.choice(non_empty_indices)
+    count = random.randint(1, piles[pile_index])
+    print(f"L'ordinateur retire {count} allumette(s) du tas {pile_index + 1}.")
+    return pile_index, count
+
+
 def game_simple(players):
     matches = 21
     actual_player = random.randint(0, 1)
@@ -82,11 +90,11 @@ def game_simple(players):
         print(f"\nAllumettes restantes : {matches}")
         player_name = players[actual_player]
 
-        if player_name != "Ordinateur":
+        if player_name == "Ordinateur":
+            choice = computer_turn_simple(last_choice, matches)
+        else:
             choice = player_turn_simple(player_name, matches)
             last_choice = choice
-        else:
-            choice = computer_turn_simple(last_choice, matches)
 
         matches -= choice
 
@@ -105,7 +113,12 @@ def game_marienbad(players):
     while not is_game_over_marienbad(piles):
         display_piles(piles)
         player_name = players[actual_player]
-        pile_index, count = player_turn_marienbad(player_name, piles)
+
+        if player_name == "Ordinateur":
+            pile_index, count = computer_turn_marienbad(piles)
+        else:
+            pile_index, count = player_turn_marienbad(player_name, piles)
+
         piles[pile_index] -= count
         print(f"{player_name} retire {count} allumette(s) du tas {pile_index + 1}.")
 
@@ -116,6 +129,7 @@ def game_marienbad(players):
 
         actual_player = 1 - actual_player
 
+
 def main():
     mode = ask_game_mode()
 
@@ -124,7 +138,7 @@ def main():
         game_simple(players)
 
     elif mode == "MARIENBAD":
-        players = [input("Nom du joueur 1 : "), input("Nom du joueur 2 : ")]
+        players = ask_type_of_game()
         game_marienbad(players)
 
 if __name__ == "__main__":

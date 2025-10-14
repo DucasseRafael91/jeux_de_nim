@@ -3,18 +3,15 @@
 import random
 
 """
-Jeu de Nim (variante simple) - 21 allumettes
+Jeu de Nim - Version SIMPLE (21 allumettes) et MARIENBAD (4 tas : 1,3,5,7)
 """
-
 def ask_game_mode():
     while True:
-        game_mode = input("Tapez SIMPLE (mode classique) ou MARIENBAD (non disponible pour l'instant) : ").strip().upper()
-        if game_mode == "SIMPLE":
+        game_mode = input("Tapez SIMPLE (mode classique) ou MARIENBAD : ").strip().upper()
+        if game_mode in ("SIMPLE", "MARIENBAD"):
             return game_mode
-        elif game_mode == "MARIENBAD":
-            print("Le mode MARIENBAD n'est pas encore disponible.")
         else:
-            print("Veuillez entre SIMPLE ou MARIENBAD")
+            print("Veuillez entrer SIMPLE ou MARIENBAD")
 
 def ask_type_of_game():
     while True:
@@ -29,36 +26,56 @@ def ask_type_of_game():
         else:
             print("Choix invalide. Tapez ORDINATEUR ou JOUEUR.")
 
-def player_turn(name, matches_remaining):
+def player_turn_simple(name, matches_remaining):
     while True:
-            number_of_matches_choose = int(input(f"{name}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
-            if 1 <= number_of_matches_choose <= 4 and number_of_matches_choose <= matches_remaining:
-                return number_of_matches_choose
-            else:
-                print("Veuillez entrer un nombre entre 1 et 4, sans dépasser les allumettes restantes.")
+        try:
+            number = int(input(f"{name}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
+            if 1 <= number <= 4 and number <= matches_remaining:
+                return number
+        except ValueError:
+            pass
+        print("Entrée invalide. Essayez encore.")
 
-def computer_turn(last_choice_player, matches_remaining):
-    # Stratégie basique : réponse complémentaire à 5 si possible
+def computer_turn_simple(last_choice_player, matches_remaining):
     if last_choice_player:
-        number_of_matches_choose = 5 - last_choice_player
+        number = 5 - last_choice_player
     else:
-        number_of_matches_choose = random.randint(1, min(4, matches_remaining))
+        number = random.randint(1, min(4, matches_remaining))
 
-    number_of_matches_choose = min(number_of_matches_choose, matches_remaining)
-    print(f"L'ordinateur prend {number_of_matches_choose} allumette(s).")
-    return number_of_matches_choose
+    number = min(number, matches_remaining)
+    print(f"L'ordinateur prend {number} allumette(s).")
+    return number
 
-def main():
-    number_matches = 21
-    matches = number_matches
+def display_piles(piles):
+    print("\nÉtat actuel des tas :")
+    for i, pile in enumerate(piles):
+        print(f"Tas {i + 1} : {'|' * pile} ({pile})")
 
-    mode = ask_game_mode()
-    players = ask_type_of_game()
+def is_game_over_marienbad(piles):
+    return all(pile == 0 for pile in piles)
 
-    # Tirage au sort du premier joueur
+def player_turn_marienbad(player_name, piles):
+    while True:
+        try:
+            pile_index = int(input(f"{player_name}, choisissez un tas (1-4) : ")) - 1
+            if pile_index not in range(4):
+                print("Choisir un chiffre entre 1 et 4")
+            if piles[pile_index] == 0:
+                print("Ce tas est vide. Choisissez un autre.")
+                continue
+
+            max_take = piles[pile_index]
+            count = int(input(f"{player_name}, combien d'allumettes voulez-vous prendre dans le tas ?"))
+            if 1 <= count <= max_take:
+                return pile_index, count
+        except ValueError:
+            pass
+        print("Entrée invalide. Essayez encore.")
+
+def game_simple(players):
+    matches = 21
     actual_player = random.randint(0, 1)
     print(f"\n{players[actual_player]} commence la partie.\n")
-
     last_choice = None
 
     while matches > 0:
@@ -66,21 +83,49 @@ def main():
         player_name = players[actual_player]
 
         if player_name != "Ordinateur":
-            number_of_matches_choose = player_turn(player_name, matches)
-            last_choice = number_of_matches_choose
+            choice = player_turn_simple(player_name, matches)
+            last_choice = choice
         else:
-            number_of_matches_choose = computer_turn(last_choice, matches)
+            choice = computer_turn_simple(last_choice, matches)
 
-        matches -= number_of_matches_choose
+        matches -= choice
 
         if matches == 0:
             print(f"\n{player_name} a pris la dernière allumette et perd la partie.")
-            winner = players[1 - actual_player]
-            print(f"{winner} gagne !\n")
+            print(f"{players[1 - actual_player]} gagne !\n")
             break
 
         actual_player = 1 - actual_player
 
-# Lancement du jeu
+def game_marienbad(players):
+    piles = [1, 3, 5, 7]
+    actual_player = random.randint(0, 1)
+    print(f"\n{players[actual_player]} commence la partie.\n")
+
+    while not is_game_over_marienbad(piles):
+        display_piles(piles)
+        player_name = players[actual_player]
+        pile_index, count = player_turn_marienbad(player_name, piles)
+        piles[pile_index] -= count
+        print(f"{player_name} retire {count} allumette(s) du tas {pile_index + 1}.")
+
+        if is_game_over_marienbad(piles):
+            print(f"\n{player_name} a pris la dernière allumette et perd la partie.")
+            print(f"{players[1 - actual_player]} gagne !\n")
+            break
+
+        actual_player = 1 - actual_player
+
+def main():
+    mode = ask_game_mode()
+
+    if mode == "SIMPLE":
+        players = ask_type_of_game()
+        game_simple(players)
+
+    elif mode == "MARIENBAD":
+        players = [input("Nom du joueur 1 : "), input("Nom du joueur 2 : ")]
+        game_marienbad(players)
+
 if __name__ == "__main__":
     main()

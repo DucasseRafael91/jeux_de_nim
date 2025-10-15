@@ -1,4 +1,4 @@
-🔥 Jeu des Allumettes - Console Game (Python)
+ Jeux de Nim 
 
 Un jeu classique revisité en Python : deux joueurs s'affrontent pour ne pas ramasser la dernière allumette ! Ce projet inclut deux variantes du jeu :
 
@@ -7,6 +7,7 @@ Variante simple : 1 seul tas de 21 allumettes.
 Variante Marienbad : 4 tas (1, 3, 5, 7 allumettes).
 
 📜 Règles du jeu
+
 Variante simple
 
 Le jeu commence avec 21 allumettes.
@@ -15,7 +16,7 @@ Chaque joueur, à son tour, retire entre 1 et 4 allumettes.
 
 Le joueur qui retire la dernière allumette perd.
 
-Variante Marienbad (optionnelle)
+Variante Marienbad 
 
 Il y a 4 tas de tailles différentes : 1, 3, 5, 7 allumettes.
 
@@ -24,24 +25,25 @@ Il y a 4 tas de tailles différentes : 1, 3, 5, 7 allumettes.
 Le joueur qui retire la dernière allumette perd.
 
 🤖 Mode contre l'ordinateur
+
 Variante simple
 
 L'ordinateur peut jouer contre vous selon une stratégie gagnante :
 
 Si vous commencez, l'ordinateur répond en retirant 5 - k allumettes, où k est le nombre que vous avez retiré. Cela vous force à finir sur la dernière allumette.
 
-Si l'ordinateur commence, il tente de se ramener à cette situation gagnante en retirant stratégiquement des allumettes.
+Si l'ordinateur commence, il tente de se ramener à cette situation gagnante en chosissant un nombre aléatoire entre 1 et 4.
 
 Variante Marienbad
 
-Dans cette version, l'ordinateur applique une stratégie simple (non optimale) pour vous opposer un défi basique.
+Dans cette version, l'ordinateur applique une stratégie simple qui est de choisir aléatoirement un nombre entre 1 et 4.
 
 🕹️ Utilisation
 
 Exécution du jeu
 Lancez le script Python depuis votre terminal :
 
-python allumettes.py
+python nim_games.py
 
 
 Choix du mode

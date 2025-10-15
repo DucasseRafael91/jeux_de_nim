@@ -126,6 +126,11 @@ def computer_turn_marienbad(piles):
     return pile_index, count
 
 
+"""
+    Lancement du jeu en mode simple
+    :param players : noms de joueurs et premet donc de determiner le mode de jeu
+    :return: None
+"""
 def game_simple(players):
     matches = 21
     actual_player = random.randint(0, 1)

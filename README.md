@@ -90,10 +90,4 @@ Interface graphique (Tkinter ou PyGame)
 
 IA plus intelligente pour Marienbad (algorithme de Nim)
 
-Mode multijoueur en ligne
 
-👨‍💻 Auteurs
-
-Projet éducatif Python
-
-Inspiré du jeu de société Marienbad

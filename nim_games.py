@@ -46,8 +46,9 @@ def player_turn_simple(name, matches_remaining):
     while True:
         try:
             number = int(input(f"{name}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
-            if 1 <= number <= 4 and number <= matches_remaining:
-                return number
+            if 1 <= number <= 4:
+                if number <= matches_remaining:
+                    return number
         except ValueError:
             pass
         print("Entrée invalide. Essayez encore.")

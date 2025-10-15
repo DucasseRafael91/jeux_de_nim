@@ -128,7 +128,7 @@ def computer_turn_marienbad(piles):
 
 """
     Lancement du jeu en mode simple
-    :param players : noms de joueurs et premet donc de determiner le mode de jeu
+    :param players : noms de joueurs et permet donc de determiner le mode de jeu
     :return: None
 """
 def game_simple(players):
@@ -156,6 +156,12 @@ def game_simple(players):
 
         actual_player = 1 - actual_player
 
+
+"""
+    Lancement du jeu en mode marienbad
+    :param players : noms de joueurs et permet donc de determiner le mode de jeu
+    :return: None
+"""
 def game_marienbad(players):
     piles = [1, 3, 5, 7]
     actual_player = random.randint(0, 1)
@@ -180,6 +186,11 @@ def game_marienbad(players):
 
         actual_player = 1 - actual_player
 
+
+"""
+    Fonction main
+    :return: None
+"""
 def main():
     mode = ask_game_mode()
     players = ask_type_of_game()

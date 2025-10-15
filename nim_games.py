@@ -154,13 +154,12 @@ def game_marienbad(players):
 
 def main():
     mode = ask_game_mode()
+    players = ask_type_of_game()
 
     if mode == "SIMPLE":
-        players = ask_type_of_game()
         game_simple(players)
 
     elif mode == "MARIENBAD":
-        players = ask_type_of_game()
         game_marienbad(players)
 
 if __name__ == "__main__":

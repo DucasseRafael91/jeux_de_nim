@@ -69,6 +69,12 @@ def computer_turn_simple(last_choice_player, matches_remaining):
     print(f"L'ordinateur prend {number} allumette(s).")
     return number
 
+
+"""
+    Permet d'afficher les piles d'allumettes
+    :param piles : tas d'allumettes
+    :return: None
+"""
 def display_piles(piles):
     print("\nÉtat actuel des tas :")
     for i, pile in enumerate(piles):

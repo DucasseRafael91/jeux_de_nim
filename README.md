@@ -82,7 +82,7 @@ Variante Marienbad avec IA de base
 
 Python 3.x
 
-Aucune bibliothèque externe n’est requise
+Bibliothéque random
 
 🚀 Améliorations possibles
 

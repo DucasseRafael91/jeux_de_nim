@@ -80,6 +80,12 @@ def display_piles(piles):
     for i, pile in enumerate(piles):
         print(f"Tas {i + 1} : {'|' * pile} ({pile})")
 
+
+"""
+    Permet de savoir si il faut arreter la partie en mode Marienbad
+    :param piles : tas d'allumettes
+    :return: None
+"""
 def is_game_over_marienbad(piles):
     return all(pile == 0 for pile in piles)
 

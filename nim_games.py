@@ -89,6 +89,11 @@ def display_piles(piles):
 def is_game_over_marienbad(piles):
     return all(pile == 0 for pile in piles)
 
+"""
+    Permet de savoir si il faut arreter la partie en mode Marienbad
+    :param piles : tas d'allumettes
+    :return: None
+"""
 def player_turn_marienbad(player_name, piles):
     while True:
         try:
@@ -107,6 +112,12 @@ def player_turn_marienbad(player_name, piles):
             pass
         print("Entrée invalide. Essayez encore.")
 
+
+"""
+    Permet de dire à l'ordinateur quoi faire en mode de jeu Marienbad
+    :param piles : tas d'allumettes
+    :return: numero du tas d'allumettes, nombre d'allumettes a retirer
+"""
 def computer_turn_marienbad(piles):
     non_empty_indices = [i for i, pile in enumerate(piles) if pile > 0]
     pile_index = random.choice(non_empty_indices)

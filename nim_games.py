@@ -6,11 +6,12 @@ import random
 Jeu de Nim - Version SIMPLE (21 allumettes) et MARIENBAD (4 tas : 1,3,5,7)
 """
 
-"""
-   Demande le mode de jeu voulue (SIMPLE OU MARIENBAD)
-   :return: game_mode
-"""
+
 def ask_game_mode():
+    """
+       Demande le mode de jeu voulue (SIMPLE OU MARIENBAD)
+       :return: game_mode
+    """
     while True:
         game_mode = input("Tapez SIMPLE (mode classique) ou MARIENBAD : ").strip().upper()
         if game_mode in ("SIMPLE", "MARIENBAD"):
@@ -19,11 +20,12 @@ def ask_game_mode():
             print("Veuillez entrer SIMPLE ou MARIENBAD")
 
 
-"""
-    Demande le type de jeux voulue
-    :return: liste de noms des joueurs
-"""
+
 def ask_type_of_game():
+    """
+        Demande le type de jeux voulue
+        :return: liste de noms des joueurs
+    """
     while True:
         choice = input("Tapez ORDINATEUR ou JOUEUR : ").strip().upper()
         if choice == "JOUEUR":
@@ -36,13 +38,13 @@ def ask_type_of_game():
         else:
             print("Choix invalide. Tapez ORDINATEUR ou JOUEUR.")
 
-"""
-    Demande au joueur de choisir le nombre d'allumettes qu'il veut enlever dans le mode de jeu simple
-    :param name : nom du joueur
-    :param matches_remaining : nombre d'allumettes restantes 
-    :return: nombre d'allumettes que le joueur souhaite enlever
-"""
 def player_turn_simple(name, matches_remaining):
+    """
+        Demande au joueur de choisir le nombre d'allumettes qu'il veut enlever dans le mode de jeu simple
+        :param name : nom du joueur
+        :param matches_remaining : nombre d'allumettes restantes
+        :return: nombre d'allumettes que le joueur souhaite enlever
+    """
     while True:
         try:
             number = int(input(f"{name}, combien d'allumettes voulez-vous prendre ? (1 à 4) : "))
@@ -53,13 +55,14 @@ def player_turn_simple(name, matches_remaining):
             pass
         print("Entrée invalide. Essayez encore.")
 
-"""
-    Permet à l'ordinateur de choisir le nombre d'allumettes qu'il doit enlever dans le mode de jeu simple
-    :param last_choice_player : dernier nombre d'allumettes choisis par le joueur (Nullable)
-    :param matches_remaining : nombre d'allumettes restantes 
-    :return: liste de noms des joueurs
-"""
+
 def computer_turn_simple(last_choice_player, matches_remaining):
+    """
+        Permet à l'ordinateur de choisir le nombre d'allumettes qu'il doit enlever dans le mode de jeu simple
+        :param last_choice_player : dernier nombre d'allumettes choisis par le joueur (Nullable)
+        :param matches_remaining : nombre d'allumettes restantes
+        :return: liste de noms des joueurs
+    """
     if last_choice_player:
         number = 5 - last_choice_player
     else:
@@ -70,31 +73,34 @@ def computer_turn_simple(last_choice_player, matches_remaining):
     return number
 
 
-"""
-    Permet d'afficher les piles d'allumettes
-    :param piles : tas d'allumettes
-    :return: None
-"""
+
 def display_piles(piles):
+    """
+        Permet d'afficher les piles d'allumettes
+        :param piles : tas d'allumettes
+        :return: None
+    """
     print("\nÉtat actuel des tas :")
     for i, pile in enumerate(piles):
         print(f"Tas {i + 1} : {'|' * pile} ({pile})")
 
 
-"""
-    Permet de savoir si il faut arreter la partie en mode Marienbad
-    :param piles : tas d'allumettes
-    :return: None
-"""
+
 def is_game_over_marienbad(piles):
+    """
+        Permet de savoir s'il faut arrêter la partie en mode Marienbad
+        :param piles : tas d'allumettes
+        :return: None
+    """
     return all(pile == 0 for pile in piles)
 
-"""
-    Permet de savoir si il faut arreter la partie en mode Marienbad
-    :param piles : tas d'allumettes
-    :return: None
-"""
+
 def player_turn_marienbad(player_name, piles):
+    """
+        Permet de savoir s'il faut arrêter la partie en mode Marienbad
+        :param piles : tas d'allumettes
+        :return: None
+    """
     while True:
         try:
             pile_index = int(input(f"{player_name}, choisissez un tas (1-4) : ")) - 1
@@ -113,12 +119,13 @@ def player_turn_marienbad(player_name, piles):
         print("Entrée invalide. Essayez encore.")
 
 
-"""
-    Permet de dire à l'ordinateur quoi faire en mode de jeu Marienbad
-    :param piles : tas d'allumettes
-    :return: numero du tas d'allumettes, nombre d'allumettes a retirer
-"""
+
 def computer_turn_marienbad(piles):
+    """
+        Permet de dire à l'ordinateur que faire en mode de jeu Marienbad
+        :param piles : tas d'allumettes
+        :return: numero du tas d'allumettes, nombre d'allumettes à retirer
+    """
     non_empty_indices = [i for i, pile in enumerate(piles) if pile > 0]
     pile_index = random.choice(non_empty_indices)
     count = random.randint(1, piles[pile_index])
@@ -126,12 +133,13 @@ def computer_turn_marienbad(piles):
     return pile_index, count
 
 
-"""
-    Lancement du jeu en mode simple
-    :param players : noms de joueurs et permet donc de determiner le mode de jeu
-    :return: None
-"""
+
 def game_simple(players):
+    """
+        Lancement du jeu en mode simple
+        :param players : noms de joueurs et permet donc de determiner le mode de jeu
+        :return: None
+    """
     matches = 21
     actual_player = random.randint(0, 1)
     print(f"\n{players[actual_player]} commence la partie.\n")
@@ -157,12 +165,13 @@ def game_simple(players):
         actual_player = 1 - actual_player
 
 
-"""
-    Lancement du jeu en mode marienbad
-    :param players : noms de joueurs et permet donc de determiner le mode de jeu
-    :return: None
-"""
+
 def game_marienbad(players):
+    """
+        Lancement du jeu en mode marienbad
+        :param players : noms de joueurs et permet donc de determiner le mode de jeu
+        :return: None
+    """
     piles = [1, 3, 5, 7]
     actual_player = random.randint(0, 1)
     print(f"\n{players[actual_player]} commence la partie.\n")
@@ -187,11 +196,12 @@ def game_marienbad(players):
         actual_player = 1 - actual_player
 
 
-"""
-    Fonction main
-    :return: None
-"""
+
 def main():
+    """
+        Fonction main
+        :return: None
+    """
     mode = ask_game_mode()
     players = ask_type_of_game()
 
